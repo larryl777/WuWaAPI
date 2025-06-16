@@ -17,3 +17,6 @@ def create_Character(request): #func to send/add character data/info
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['GET', 'PUT', 'DELETE']) 
+#Add a PUT and DELETE to update info (though may not actually need to delete and update for purpose of this API)
