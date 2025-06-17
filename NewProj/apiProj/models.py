@@ -34,14 +34,17 @@ class CharacterStats(models.Model):
     #storing image as just the file path since images will be added to repository
     # image = models.CharField(max_length=200, blank=True, null = True)
 
-    def getfinalStats(self, include_Traces = True):
-        if(include_Traces):
+    def getfinalStats(self, include_traces = True):
+        # print(f"DEBUG: getfinalStats called with include_traces={include_traces}")
+        # print(f"DEBUG: self.base_ATK={self.base_ATK}, self.trace_ATK={self.trace_ATK}")
+        # print(f"DEBUG: self.base_critRate={self.base_critRate}, self.trace_critRate={self.trace_critRate}")
+        if(include_traces):
             final_HP = int(self.base_HP * (1 + self.trace_HP/100))
             final_ATK = int(self.base_ATK * (1 + self.trace_ATK/100))
             final_DEF = int(self.base_DEF * (1 + self.trace_DEF/100))
-            final_critRate = int(self.base_critRate * (1 + self.trace_critRate/100))
-            final_critDMG = int(self.base_critDMG * (1 + self.trace_critDMG/100))
-            final_elemDMG = int(self.elemDMG * (1 + self.trace_elemDMG/100))
+            final_critRate = float(self.base_critRate + self.trace_critRate)
+            final_critDMG = float(self.base_critDMG + self.trace_critDMG)
+            final_elemDMG = float(self.elemDMG + self.trace_elemDMG)
 
             return {
                 'HP': final_HP,
