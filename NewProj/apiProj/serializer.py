@@ -5,3 +5,11 @@ class CharacterSerializer(serializers.ModelSerializer): #seralize Characters (ne
     class Meta:
         model = CharacterStats
         fields = '__all__'
+    
+    def getCharacterStats(self, obj):
+        req = self.context.get('request')
+        if req is None: 
+            return 
+        else: 
+            include_Traces = req.GET.get('include_Traces', 'true').lower() == 'true'
+            return obj.getFinalStats(include_Traces)

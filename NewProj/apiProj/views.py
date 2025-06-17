@@ -7,8 +7,8 @@ from .serializer import CharacterSerializer
 @api_view(['GET'])
 def get_Character(request): #func to fetch and display character data from our POST
     characters = CharacterStats.objects.all() #get all characters
-    seralizer = CharacterSerializer(characters, many = True) #returns a list of data
-    return Response(seralizer.data)
+    serializer = CharacterSerializer(characters, many = True) #returns a list of data
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def create_Character(request): #func to send/add character data/info
