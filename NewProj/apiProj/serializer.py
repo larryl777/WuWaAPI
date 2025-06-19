@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CharacterStats
+from .models import CharacterStats, weaponStats
 
 class CharacterSerializer(serializers.ModelSerializer): #seralize Characters (need to do for weapons, etc)
     final_stats = serializers.SerializerMethodField()
@@ -17,3 +17,11 @@ class CharacterSerializer(serializers.ModelSerializer): #seralize Characters (ne
         else: 
             include_traces = req.GET.get('include_traces', 'true').lower() == 'true'
             return obj.getfinalStats(include_traces)
+
+class weaponSeralizer(serializers.ModelSerializer):
+    weapon_final_stats = serializers.SerializerMethodField()
+    class Meta:
+        model = weaponStats
+        fields = '__all__'
+    def get_weapon_final_stats(self, obj):
+        return obj.getweaponfinalStats()

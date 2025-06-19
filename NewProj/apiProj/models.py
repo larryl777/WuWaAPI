@@ -67,41 +67,64 @@ class CharacterStats(models.Model):
                 'elemDMG': self.elemDMG
             }
         
-
-
-#weapon data
-# class weaponStats(models.Model):
-#     name = models.CharField(max_length = 100) #can limit name
-#     type = models.CharField(max_length = 100)
-#     rarity = models.IntegerField()
-#     base_ATK = models.IntegerField()
+# weapon data
+class weaponStats(models.Model):
+    name = models.CharField(max_length = 100) #can limit name
+    type = models.CharField(max_length = 100)
+    rarity = models.IntegerField()
+    base_ATK = models.IntegerField()
 
     
-#     #secondary stat of weapons 
-#     second_Stat = models.CharField(max_length= 100)
-#     secondary_Val = models.FloatField(default = 0.0)
+    #secondary stat of weapons 
+    secondary_Stat = models.CharField(max_length= 100)
+    secondary_Val = models.FloatField(default = 0.0)
 
-#     #passive skill stat bonuses
-#     passive_ATK = models.FloatField(default = 0)
-#     HP = models.FloatField(default = 0)
-#     DEF = models.FloatField(default = 0)
-#     ER = models.FloatField(default= 0)
-#     critRate = models.FloatField(default= 0)
-#     critDMG = models.FloatField(default= 0)
-#     rSkillDMG = models.FloatField(default = 0)
-#     bATKDMG = models.FloatField(default = 0)
-#     hATKDMG = models.FloatField(default = 0)
-#     rLibDMG = models.FloatField(default = 0)
-#     elemDMG = models.FloatField(default = 0)
-#     healBONUS = models.FloatField(default = 0)
+    #passive skill stat bonuses
+    #try to generailize the passive stats -
+    # just have a % and save the actual type as a string rather than hardcoding each possible stat
+    
+    ATK = models.FloatField(default = 0.0)
+    HP = models.FloatField(default = 0.0)
+    DEF = models.FloatField(default = 0.0)
+    ER = models.FloatField(default= 0.0)
+    critRate = models.FloatField(default= 0.0)
+    critDMG = models.FloatField(default= 0.0)
+    rSkillDMG = models.FloatField(default = 0.0)
+    bATKDMG = models.FloatField(default = 0.0)
+    hATKDMG = models.FloatField(default = 0.0)
+    rLibDMG = models.FloatField(default = 0.0)
+    elemDMG = models.FloatField(default = 0.0)
+    healBONUS = models.FloatField(default = 0.0)
 
-#     #storing image as just the file path since images will be added to repository
-#     image = models.CharField(max_length=200, blank=True, null = True)
+    #refinements/dupes
+    dupes = models.IntegerField(default = 1)
 
-#     def getfinalStats(self):
-#         return self
+    #storing image as just the file path since images will be added to repository
+    # image = models.CharField(max_length=200, blank=True, null = True)
 
+    #most likely wont need a final stats for weapons, as we will just be appending individual
+    # values to the character stats itself
+    def getweaponfinalStats(self):
+        bonusStats = {}
 
+        passive_fields = [
+            'ATK', 'HP', 'DEF', 'ER', 'critRate', 'critDMG',
+            'rSkillDMG', 'bATKDMG', 'hATKDMG', 'rLibDMG',
+            'elemDMG', 'healBONUS'
+        ]
+
+        for passives in passive_fields:
+            value = getattr(self, passives)
+            if value > 0.0:
+                bonusStats[passives] = value
+
+        return {
+            "base_ATK": self.base_ATK,
+            "secondary_Stat": self.secondary_Stat,
+            "seconday_Val": self.secondary_Val,            
+            "passiveStats": bonusStats,
+            "dupes": self.dupes
+        }
 
     def __str__(self):
         return self.name 
