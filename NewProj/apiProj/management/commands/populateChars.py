@@ -24,31 +24,35 @@ class Command(BaseCommand):
             'base_HP': 11400,
             'base_ATK': 375,
             'base_DEF': 1369,
-            'trace_ATK': 16,
-            'trace_critRate': 30
+            'trace_ATK': 12,
+            'elemDMG': 12
             
             # 'image_url': '/static/characters/Srover.jpg'
             },
-            # {
-            # 'name': 'HRover',
-            # 'element': 'Havoc',
-            # 'weapon': 'Sword',
-            # 'rarity': '5',
-            # 'HP': 10825,
-            # 'ATK': 413,
-            # 'DEF': 1259,
+            {
+            'name': 'HRover',
+            'element': 'Havoc',
+            'weapon': 'Sword',
+            'rarity': '5',
+            'base_HP': 10825,
+            'base_ATK': 413,
+            'base_DEF': 1259,
+            'trace_ATK': 12,
+            'elemDMG': 12
             # 'image_url': '/static/characters/Hrover.jpg'
-            # },
-            #             {
-            # 'name': 'ARover',
-            # 'element': 'Aero',
-            # 'weapon': 'Sword',
-            # 'rarity': '5',
-            # 'HP': 10775,
-            # 'ATK': 438,
-            # 'DEF': 1136,
+            },
+            {
+            'name': 'ARover',
+            'element': 'Aero',
+            'weapon': 'Sword',
+            'rarity': '5',
+            'base_HP': 10775,
+            'base_ATK': 438,
+            'base_DEF': 1137,
+            'trace_ATK': 12,
+            'healBONUS': 12
             # 'image_url': '/static/characters/Arover.jpg'
-            # },
+            },
         ]
         for char_data in characters_Data:
             character = CharacterStats.objects.create(**char_data)
